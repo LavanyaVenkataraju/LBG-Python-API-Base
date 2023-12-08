@@ -18,7 +18,7 @@ pipeline {
             steps {
                 // We are building the docker images on Jenkins machine , SSH is not required. 
                 sh '''
-                docker build -t lavyyndocker/flask-jenk -t lavyyndocker/flask-jenk:v${BUILD_NUMBER} .
+                docker build -t lavyyndocker/flask-jenk1 -t lavyyndocker/flask-jenk1:v${BUILD_NUMBER} .
                 '''
             }
         }
@@ -26,8 +26,8 @@ pipeline {
             steps {
                  // We are pushing the docker images to docker hub on Jenkins machine , SSH is not required. 
                 sh '''
-                docker push lavyyndocker/flask-jenk
-                docker push lavyyndocker/flask-jenk:v${BUILD_NUMBER}
+                docker push lavyyndocker/flask-jenk1
+                docker push lavyyndocker/flask-jenk1:v${BUILD_NUMBER}
                 '''
             }
         }
@@ -35,7 +35,7 @@ pipeline {
             steps {
                 sh '''
                 ssh -i ~/.ssh/id_rsa jenkins@10.200.0.10 << EOF
-                docker run -t -p 8080 --name flask-app lavyyndocker/flask-jenk
+                docker run -t -p 8080 --name flask-app lavyyndocker/flask-jenk1
                 '''
             }
         }
