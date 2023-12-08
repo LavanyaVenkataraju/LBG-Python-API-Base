@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                // We are building the docker images on Jenkins machine , SSH is not required. 
+                // We are building the docker images on Jenkins machine , SSH is not required.
                 sh '''
                 docker build -t lavyyndocker/flask-jenk1 -t lavyyndocker/flask-jenk1:v${BUILD_NUMBER} .
                 '''
