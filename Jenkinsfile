@@ -25,10 +25,10 @@ pipeline {
         stage('Push') {
             steps {
                  // We are pushing the docker images to docker hub on Jenkins machine , SSH is not required. 
-              //  sh '''
-              //  docker push lavyyndocker/flask-jenk1
-              //  docker push lavyyndocker/flask-jenk1:v${BUILD_NUMBER}
-              //  '''
+               sh '''
+                docker push lavyyndocker/flask-jenk1
+                docker push lavyyndocker/flask-jenk1:v${BUILD_NUMBER}
+                 '''
             }
         }
         stage('Deploy') {
