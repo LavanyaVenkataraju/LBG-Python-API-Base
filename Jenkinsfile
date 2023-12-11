@@ -6,7 +6,7 @@ pipeline {
                 script {
 			        if (env.GIT_BRANCH == 'origin/main') {
                         sh '''
-                        ssh -i ~/.ssh/id_rsa jenkins@10.200.0.3 << EOF
+                        ssh -i ~/.ssh/id_rsa jenkins@10.200.0.10 << EOF
                         docker stop flask-app || echo "flask-app not running"
                         docker rm flask-app || echo "flask-app not running"
                         docker stop nginx || echo "nginx not running"
@@ -17,7 +17,7 @@ pipeline {
                         '''
                     } else if (env.GIT_BRANCH == 'origin/dev1') {
                         sh '''
-                        ssh -i ~/.ssh/id_rsa jenkins@10.200.0.15 << EOF
+                        ssh -i ~/.ssh/id_rsa jenkins@10.200.0.10 << EOF
                         docker stop flask-app || echo "flask-app not running"
                         docker rm flask-app || echo "flask-app not running"
                         docker stop nginx || echo "nginx not running"
