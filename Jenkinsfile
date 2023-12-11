@@ -9,8 +9,17 @@ pipeline {
                 //<< EOF is a Here Dock is to indicate that the commands following EOF are commands to be run as if it were commands under .sh script
                 sh '''
                 ssh -i ~/.ssh/id_rsa jenkins@10.200.0.10 << EOF
+                
                 docker stop flask-app || echo "Lavanya msg - flask-app not running"
                 docker rm flask-app || echo "Lavanya msg - flask-app not running"  
+
+                docker stop nginx || echo "Lavanya msg - nginx not running"
+                docker rm nginx || echo "Lavanya msg - nginx not running" 
+
+                docker rmi lavyyndocker/flask-jenk1 || echo "Image does not exist"
+                docker rmi lavyyndocker/flask-nginx || echo "Image does not exist"
+
+                docker network create project || echo "network already exists"
                 '''
            }
         }
@@ -19,6 +28,7 @@ pipeline {
                 // We are building the docker images on Jenkins machine , SSH is not required.
                 sh '''
                 docker build -t lavyyndocker/flask-jenk1 -t lavyyndocker/flask-jenk1:v${BUILD_NUMBER} .
+                docker build -t lavyyndocker/flask-nginx -t lavyyndocker/flask-nginx:v${BUILD_NUMBER} ./nginx
                 '''
             }
         }
@@ -28,6 +38,9 @@ pipeline {
                sh '''
                docker push lavyyndocker/flask-jenk1
                docker push lavyyndocker/flask-jenk1:v${BUILD_NUMBER}
+
+               docker push lavyyndocker/flask-nginx
+               docker push lavyyndocker/flask-nginx:v${BUILD_NUMBER}
                '''
             }
         }
@@ -35,7 +48,8 @@ pipeline {
             steps {
                 sh '''
                 ssh -i ~/.ssh/id_rsa jenkins@10.200.0.10 << EOF
-                docker run -d -p 80:8080 --name flask-app lavyyndocker/flask-jenk1
+                docker run -d --name flask-app --network project lavyyndocker/flask-jenk1
+                docker run -d -p 80:8080 --name flask-app --network project lavyyndocker/flask-nginx
                 '''
             }
         }
@@ -43,6 +57,8 @@ pipeline {
             steps {
                 sh '''
                 docker system prune -f 
+                docker rmi lavyyndocker/flask-app:v${BUILD_NUMBER}
+                 docker rmi lavyyndocker/flask-nginx:v${BUILD_NUMBER}
                 '''
             }
         }
