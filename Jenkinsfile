@@ -15,7 +15,7 @@ pipeline {
                         docker rmi stratcastor/flask-nginx || echo "Image does not exist"
                         docker network create project || echo "network already exists"
                         '''
-                    } else if (env.GIT_BRANCH == 'origin/dev1') {
+                    } else if (env.GIT_BRANCH == 'origin/dev2') {
                         sh '''
                         ssh -i ~/.ssh/id_rsa jenkins@10.200.0.10 << EOF
                         docker stop flask-app || echo "flask-app not running"
@@ -41,7 +41,7 @@ pipeline {
                         sh '''
                         echo "Build not required in main"
                         '''
-                    } else if (env.GIT_BRANCH == 'origin/dev1') {
+                    } else if (env.GIT_BRANCH == 'origin/dev2') {
                         sh '''
                         docker build -t stratcastor/flask-jenk1 -t stratcastor/flask-jenk1 :v${BUILD_NUMBER} .   
                         docker build -t stratcastor/flask-nginx -t stratcastor/flask-nginx:v${BUILD_NUMBER} ./nginx             
@@ -61,7 +61,7 @@ pipeline {
                         sh '''
                         echo "Push not required in main"
                         '''
-                    } else if (env.GIT_BRANCH == 'origin/dev1') {
+                    } else if (env.GIT_BRANCH == 'origin/dev2') {
                         sh '''
                         docker push stratcastor/flask-jenk1 
                         docker push stratcastor/flask-jenk1 :v${BUILD_NUMBER}
@@ -85,7 +85,7 @@ pipeline {
                         docker run -d --name flask-app --network project stratcastor/python-api
                         docker run -d -p 80:80 --name nginx --network project stratcastor/flask-nginx
                         '''
-                    } else if (env.GIT_BRANCH == 'origin/dev1') {
+                    } else if (env.GIT_BRANCH == 'origin/dev2') {
                         sh '''
                         ssh -i ~/.ssh/id_rsa jenkins@10.200.0.15 << EOF
                         docker run -d --name flask-app --network project stratcastor/python-api
@@ -102,7 +102,7 @@ pipeline {
         stage('Cleanup') {
             steps {
                 script {
-                    if (env.GIT_BRANCH == 'origin/dev1') {
+                    if (env.GIT_BRANCH == 'origin/dev2') {
                         sh '''
                         docker rmi stratcastor/python-api:v${BUILD_NUMBER}
                         docker rmi stratcastor/flask-nginx:v${BUILD_NUMBER}
