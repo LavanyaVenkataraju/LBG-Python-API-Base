@@ -49,7 +49,7 @@ pipeline {
                 sh '''
                 ssh -i ~/.ssh/id_rsa jenkins@10.200.0.10 << EOF
                 docker run -d --name flask-app --network project lavyyndocker/flask-jenk1
-                docker run -d -p 80:80 --name flask-nginx --network project lavyyndocker/flask-nginx
+                docker run -d -p 80:80 --name nginx --network project lavyyndocker/flask-nginx
                 '''
             }
         }
