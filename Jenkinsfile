@@ -57,7 +57,7 @@ pipeline {
             steps {
                 sh '''
                 docker system prune -f 
-                docker rmi lavyyndocker/flask-app:v${BUILD_NUMBER}
+                docker rmi lavyyndocker/flask-jenk1:v${BUILD_NUMBER}
                  docker rmi lavyyndocker/flask-nginx:v${BUILD_NUMBER}
                 '''
             }
