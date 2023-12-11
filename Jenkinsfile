@@ -81,13 +81,13 @@ pipeline {
                 script {
 			        if (env.GIT_BRANCH == 'origin/main') {
                         sh '''
-                        ssh -i ~/.ssh/id_rsa jenkins@10.200.0.3 << EOF
+                        ssh -i ~/.ssh/id_rsa jenkins@10.200.0.10 << EOF
                         docker run -d --name flask-app --network project stratcastor/python-api
                         docker run -d -p 80:80 --name nginx --network project stratcastor/flask-nginx
                         '''
                     } else if (env.GIT_BRANCH == 'origin/dev2') {
                         sh '''
-                        ssh -i ~/.ssh/id_rsa jenkins@10.200.0.15 << EOF
+                        ssh -i ~/.ssh/id_rsa jenkins@10.200.0.10 << EOF
                         docker run -d --name flask-app --network project stratcastor/python-api
                         docker run -d -p 80:80 --name nginx --network project stratcastor/flask-nginx
                         '''
