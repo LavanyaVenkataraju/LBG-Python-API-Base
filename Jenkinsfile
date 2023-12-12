@@ -11,8 +11,8 @@ pipeline {
                         docker rm flask-app || echo "flask-app not running"
                         docker stop nginx || echo "nginx not running"
                         docker rm nginx || echo "nginx not running"
-                        docker rmi stratcastor/flask-jenk1 || echo "Image does not exist"
-                        docker rmi stratcastor/flask-nginx || echo "Image does not exist"
+                        docker rmi lavyyndocker/flask-jenk1 || echo "Image does not exist"
+                        docker rmi lavyyndocker/flask-nginx || echo "Image does not exist"
                         docker network create project || echo "network already exists"
                         '''
                     } else if (env.GIT_BRANCH == 'origin/dev2') {
@@ -22,8 +22,8 @@ pipeline {
                         docker rm flask-app || echo "flask-app not running"
                         docker stop nginx || echo "nginx not running"
                         docker rm nginx || echo "nginx not running"
-                        docker rmi stratcastor/flask-jenk1 || echo "Image does not exist"
-                        docker rmi stratcastor/flask-nginx || echo "Image does not exist"
+                        docker rmi lavyyndocker/flask-jenk1 || echo "Image does not exist"
+                        docker rmi lavyyndocker/flask-nginx || echo "Image does not exist"
                         docker network create project || echo "network already exists"
                         '''
                     } else {
@@ -43,8 +43,8 @@ pipeline {
                         '''
                     } else if (env.GIT_BRANCH == 'origin/dev2') {
                         sh '''
-                        docker build -t stratcastor/flask-jenk1 -t stratcastor/flask-jenk1 :v${BUILD_NUMBER} .   
-                        docker build -t stratcastor/flask-nginx -t stratcastor/flask-nginx:v${BUILD_NUMBER} ./nginx             
+                        docker build -t lavyyndocker/flask-jenk1 -t lavyyndocker/flask-jenk1 :v${BUILD_NUMBER} .   
+                        docker build -t lavyyndocker/flask-nginx -t lavyyndocker/flask-nginx:v${BUILD_NUMBER} ./nginx             
                         '''
                     } else {
                         sh '''
@@ -63,10 +63,10 @@ pipeline {
                         '''
                     } else if (env.GIT_BRANCH == 'origin/dev2') {
                         sh '''
-                        docker push stratcastor/flask-jenk1 
-                        docker push stratcastor/flask-jenk1 :v${BUILD_NUMBER}
-                        docker push stratcastor/flask-nginx
-                        docker push stratcastor/flask-nginx:v${BUILD_NUMBER}
+                        docker push lavyyndocker/flask-jenk1 
+                        docker push lavyyndocker/flask-jenk1 :v${BUILD_NUMBER}
+                        docker push lavyyndocker/flask-nginx
+                        docker push lavyyndocker/flask-nginx:v${BUILD_NUMBER}
                         '''
                     } else {
                         sh '''
@@ -82,14 +82,14 @@ pipeline {
 			        if (env.GIT_BRANCH == 'origin/main') {
                         sh '''
                         ssh -i ~/.ssh/id_rsa jenkins@10.200.0.3 << EOF
-                        docker run -d --name flask-app --network project stratcastor/flask-jenk1
-                        docker run -d -p 80:80 --name nginx --network project stratcastor/flask-nginx
+                        docker run -d --name flask-app --network project lavyyndocker/flask-jenk1
+                        docker run -d -p 80:80 --name nginx --network project lavyyndocker/flask-nginx
                         '''
                     } else if (env.GIT_BRANCH == 'origin/dev2') {
                         sh '''
                         ssh -i ~/.ssh/id_rsa jenkins@10.200.0.15 << EOF
-                        docker run -d --name flask-app --network project stratcastor/flask-jenk1
-                        docker run -d -p 80:80 --name nginx --network project stratcastor/flask-nginx
+                        docker run -d --name flask-app --network project lavyyndocker/flask-jenk1
+                        docker run -d -p 80:80 --name nginx --network project lavyyndocker/flask-nginx
                         '''
                     } else {
                         sh '''
@@ -104,8 +104,8 @@ pipeline {
                 script {
                     if (env.GIT_BRANCH == 'origin/dev2') {
                         sh '''
-                        docker rmi stratcastor/flask-jenk1:v${BUILD_NUMBER}
-                        docker rmi stratcastor/flask-nginx:v${BUILD_NUMBER}
+                        docker rmi lavyyndocker/flask-jenk1:v${BUILD_NUMBER}
+                        docker rmi lavyyndocker/flask-nginx:v${BUILD_NUMBER}
                         '''
                     }
                 }
