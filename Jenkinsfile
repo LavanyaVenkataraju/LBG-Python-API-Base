@@ -82,13 +82,13 @@ pipeline {
 			        if (env.GIT_BRANCH == 'origin/main') {
                         sh '''
                         ssh -i ~/.ssh/id_rsa jenkins@10.200.0.10 << EOF
-                        docker run -d --name flask-app --network project stratcastor/python-api
+                        docker run -d --name flask-app --network project stratcastor/flask-jenk1
                         docker run -d -p 80:80 --name nginx --network project stratcastor/flask-nginx
                         '''
                     } else if (env.GIT_BRANCH == 'origin/dev2') {
                         sh '''
                         ssh -i ~/.ssh/id_rsa jenkins@10.200.0.10 << EOF
-                        docker run -d --name flask-app --network project stratcastor/python-api
+                        docker run -d --name flask-app --network project stratcastor/flask-jenk1
                         docker run -d -p 80:80 --name nginx --network project stratcastor/flask-nginx
                         '''
                     } else {
@@ -104,7 +104,7 @@ pipeline {
                 script {
                     if (env.GIT_BRANCH == 'origin/dev2') {
                         sh '''
-                        docker rmi stratcastor/python-api:v${BUILD_NUMBER}
+                        docker rmi stratcastor/flask-jenk1:v${BUILD_NUMBER}
                         docker rmi stratcastor/flask-nginx:v${BUILD_NUMBER}
                         '''
                     }
