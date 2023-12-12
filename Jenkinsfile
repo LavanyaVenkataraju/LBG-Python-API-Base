@@ -104,7 +104,7 @@ pipeline {
                 script {
                     if (env.GIT_BRANCH == 'origin/dev2') {
                         sh '''
-                        docker rmi stratcastor/python-api:v${BUILD_NUMBER}
+                        docker rmi stratcastor/flask-jenk1:v${BUILD_NUMBER}
                         docker rmi stratcastor/flask-nginx:v${BUILD_NUMBER}
                         '''
                     }
