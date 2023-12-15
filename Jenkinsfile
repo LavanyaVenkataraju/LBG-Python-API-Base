@@ -26,14 +26,14 @@ pipeline {
                 script {
                     if (env.GIT_BRANCH == "origin/main") {
                         sh '''
-                        kubectl rollout restart deployment.apps/flask-deployment
-                        kubectl rollout restart deployment.apps/nginx-deployment
+                        kubectl rollout restart deployment.apps/flask-deployment -n prod
+                        kubectl rollout restart deployment.apps/nginx-deployment -n prod
                         docker build -t lavyyndocker/task1-kube:latest -t lavyyndocker/task1-kube:prod-v${BUILD_NUMBER} .
                         '''
                     } else if (env.GIT_BRANCH == "origin/dev3") {
                         sh '''
-                        kubectl rollout restart deployment.apps/flask-deployment
-                        kubectl rollout restart deployment.apps/nginx-deployment
+                        kubectl rollout restart deployment.apps/flask-deployment -n dev
+                        kubectl rollout restart deployment.apps/nginx-deployment -n dev
                         docker build -t lavyyndocker/task1-kube:latest -t lavyyndocker/task1-kube:dev3-v${BUILD_NUMBER} .
                         '''
                     } else {
