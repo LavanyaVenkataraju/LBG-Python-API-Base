@@ -26,14 +26,10 @@ pipeline {
                 script {
                     if (env.GIT_BRANCH == "origin/main") {
                         sh '''
-                        kubectl rollout restart deployment.apps/flask-deployment -n prod
-                        kubectl rollout restart deployment.apps/nginx-deployment -n prod
                         docker build -t lavyyndocker/task1-kube:latest -t lavyyndocker/task1-kube:prod-v${BUILD_NUMBER} .
                         '''
                     } else if (env.GIT_BRANCH == "origin/dev3") {
-                        sh '''
-                        kubectl rollout restart deployment.apps/flask-deployment -n dev
-                        kubectl rollout restart deployment.apps/nginx-deployment -n dev
+                        sh '''                
                         docker build -t lavyyndocker/task1-kube:latest -t lavyyndocker/task1-kube:dev3-v${BUILD_NUMBER} .
                         '''
                     } else {
@@ -91,9 +87,16 @@ pipeline {
 
         stage('CleanUp') {
             steps {
-                sh '''
-                docker system prune -f 
-                '''
+                script {
+                    if (env.GIT_BRANCH == 'origin/main') {
+                        sh '''
+                        docker rmi lavyyndocker/task1-kube:prod-v${BUILD_NUMBER}
+                        '''
+                    } else if (env.GIT_BRANCH == 'origin/dev') {
+                        sh '''
+                        docker rmi lavyyndocker/task1-kube:dev-v${BUILD_NUMBER}
+                        '''
+                }
             }
         }
     }
